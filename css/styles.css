@@ -28,16 +28,17 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    padding: 20px;
+    
 }
 
-.left-side img {
-    width: 100%;
-}
+
+
+
 
 .decorative-image {
     width: 100%;
-    border-radius: 10px;
+  position: relative;
+
 }
 
 .right-side {
@@ -58,6 +59,15 @@ body {
     top: 20px;
     right: 20px;
 }
+
+.educa-logo{
+position: absolute;
+    width: 50%;
+    
+    
+
+}
+
 
 .welcome-text {
     font-size: 32px;
