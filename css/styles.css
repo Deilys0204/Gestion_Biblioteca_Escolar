@@ -11,79 +11,89 @@ body {
 
 .container {
     display: flex;
-    width: 70%;
+    width: 80%;
+    max-width: 1200px;
     height: 80%;
     background-color: white;
     border-radius: 10px;
+    overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .left-side {
     width: 50%;
-    background-color: #3BAFD9;
+    background-color: #4A9FC7;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
     padding: 20px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
 }
 
 .left-side img {
-    width: 80%;
-    margin-bottom: 20px;
+    width: 100%;
 }
 
 .decorative-image {
-    width: 60%;
-    margin-top: 20px;
+    width: 100%;
+    border-radius: 10px;
 }
 
 .right-side {
     width: 50%;
-    padding: 40px;
+    padding: 40px 20px;
     position: relative;
     text-align: center;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .institution-logo {
-    width: 150px;
+    width: 130px;
     position: absolute;
     top: 20px;
     right: 20px;
 }
 
 .welcome-text {
-    font-size: 36px; /* Ajuste de tamaño de fuente */
-    color: #3BAFD9; /* Color de relleno del texto */
-    margin-bottom: 40px;
+    font-size: 32px;
+    color: #3BAFD9;
+    margin-bottom: 30px;
     font-weight: bold;
     text-shadow: 
-        -1px -1px 0 #1E144A,  /* contorno negro hacia arriba a la izquierda */
-        1px -1px 0 #1E144A,   /* contorno negro hacia arriba a la derecha */
-        -1px 1px 0 #1E144A,   /* contorno negro hacia abajo a la izquierda */
-        1px 1px 0 #1E144A;    /* contorno negro hacia abajo a la derecha */
+        -1px -1px 0 #1E144A,
+        1px -1px 0 #1E144A,
+        -1px 1px 0 #1E144A,
+        1px 1px 0 #1E144A;
 }
 
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 input[type="text"], input[type="password"] {
-    width: 80%;
-    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
     margin: 10px 0;
     border: 2px solid #1E144A;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
+    outline: none;
+    background-color: #f8f8f8;
 }
 
 .password-container {
     position: relative;
-    width: 80%;
+    width: 100%;
+    max-width: 300px;
 }
 
 .eye-icon {
@@ -95,15 +105,17 @@ input[type="text"], input[type="password"] {
 }
 
 button {
-    width: 85%;
+    width: 100%;
+    max-width: 300px;
     padding: 12px;
     background-color: #0077b3;
     color: white;
-    border: none;
-    border-radius: 20px;
+    border: 2px solid #1E144A;
+    border-radius: 30px;
     font-size: 18px;
     margin-top: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -114,6 +126,7 @@ button:hover {
     margin-top: 20px;
     text-align: center;
     font-size: 14px;
+    width: 100%;
 }
 
 .options a {
