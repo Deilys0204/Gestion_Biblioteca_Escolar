@@ -16,7 +16,7 @@
 }
 
 .logo {
-    width: 300px; /* Ajusta según el tamaño de tu logo */
+    width: 300px; 
     height: 100px;
     margin-right: 10px;
 }
@@ -38,8 +38,8 @@ h2 {
 .brand {
     position: absolute;
     top: 20px;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 24px; 
+    font-weight: bold;  
     color: #4682B4;
     background-color: white;
     padding: 10px 20px;
