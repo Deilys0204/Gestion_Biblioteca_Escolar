@@ -35,8 +35,8 @@ h2 {
     position: relative;
     overflow: hidden;
 }
-.brand {
-    position: absolute;
+.title {
+    position: absolute; 
     top: 20px;
     font-size: 24px; 
     font-weight: bold;  
@@ -58,7 +58,7 @@ h2 {
 }
 h2 {
     color: #4682B4;
-    margin-bottom: 20px;
+    margin-bottom: 20px; 
 }
 .form-group {
     margin-bottom: 15px;
@@ -76,7 +76,7 @@ input[type="password"] {
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
-    background-color: #c0e8f7; /* Azul claro */
+    background-color: #c0e8f7; 
 }
 button {
     width: 100%;
