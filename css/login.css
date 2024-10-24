@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400..700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #d0ecf8;
+}
+
+.container {
+    width: 70%; 
+    max-width: 700px; 
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-container {
+    font-size: 2.5em; 
+    font-weight: bold;
+    background-color: #ffffff;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: "Bungee", sans-serif;
+    color: transparent;
+    -webkit-text-stroke: 0.05em #00376e;
+    color: #5398dc;
+    position: absolute; 
+    z-index: 1;
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+}
+
+.login-container {
+    width: 70%; 
+    max-width: 1200px; 
+    margin: auto; 
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+.decorative-image {
+    width: 70%; 
+    object-fit: cover;
+}
+
+.institution-logo {
+    width: 200px;
+    display: none; 
+}
+
+/* Mostrar el logo solo en pantallas pequeñas */
+@media (max-width: 768px) {
+    .institution-logo {
+        display: block; 
+        align-self: flex-end;
+        margin-top: 0;
+    }
+}
+
+.welcome-text {
+    font-size: 28px; 
+    color: #3BAFD9;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 #1E144A, 1px -1px 0 #1E144A, -1px 1px 0 #1E144A, 1px 1px 0 #1E144A;
+}
+
+form {
+    max-width: 350px; 
+}
+
+button[type="submit"] {
+    background-color: #4682B4;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    padding: 8px 16px;
+    max-width: 50%;
+}
+
+button[type="submit"]:hover {
+    background-color: #357ab8;
+}
+
+.options a {
+    color: #4682B4;
+    text-decoration: none;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+.options span a {
+    color: #4682B4;
+    text-decoration: none;
+}
+
+.options span a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,228 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Contenedor general del dashboard */
+.dashboard-container {
+    display: flex;
+    height: 100vh; /* Altura total de la ventana */
+    overflow: hidden; /* Evita el desbordamiento lateral */
+}
+
+/* Barra lateral fija */
+aside {
+    background-color: #4a9fc7; /* Fondo azul */
+    width: 250px; /* Ancho fijo */
+    height: 100vh; /* Altura fija para toda la ventana */
+    position: fixed; /* Barra lateral fija */
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    overflow-y: auto; /* Permite scroll si el contenido de la barra lateral es mayor */
+    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido */
+}
+
+/* Logo de la barra lateral */
+aside .img-fluid {
+    width: 90%;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Centra la imagen */
+}
+
+/* Menú de navegación */
+.nav-link {
+    color: #000000 !important;
+    font-size: 18px;
+    padding: 15px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link i {
+    margin-right: 10px;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: #ecf0f1;
+    color: #000000;
+}
+
+/* Contenido principal */
+.main-content {
+    margin-left: 250px; /* Espacio para la barra lateral fija */
+    padding: 20px;
+    background-color: rgb(246, 246, 234);
+    height: 100vh;
+    overflow-y: auto; /* Permite scroll si el contenido principal es más largo que la ventana */
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #000000;
+}
+
+h3 {
+    font-size: 22px;
+    color: #545959;
+}
+
+/* Estilos para los iconos en el header */
+.user-options {
+    gap: 15px;
+}
+
+/* Contenedor para los íconos */
+.icon-container {
+    background-color: #4a9fc7; /* Mismo color del aside */
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; /* Redondeado completo */
+    cursor: pointer;
+}
+
+/* Información del usuario */
+.user-info {
+    background-color: #4a9fc7; /* Mismo color del aside */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px; /* Redondeado tipo píldora */
+    display: flex;
+    align-items: center;
+}
+
+/* Espacio entre el ícono y el nombre */
+.user-info i {
+    margin-right: 10px;
+}
+
+
+.d-flex.align-items-center.gap-3 {
+    gap: 10px;
+}
+
+.text-white.bg-primary.p-2 {
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Filtros de libros */
+section.text-center.my-4 {
+    display: flex;
+    justify-content: center;
+}
+
+button.btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+}
+
+/* Estilos para la galería de libros */
+.container.bg-light.rounded.py-4 {
+    background-color: #d0ecf8;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 40px auto;
+    max-width: 90%;
+}
+
+/* Asegurar que las imágenes de los libros tengan el mismo tamaño y estén bien distribuidas */
+.row-cols-2.row-cols-md-5.g-4 .col img {
+    width: 100%;           /* La imagen ocupará todo el ancho del contenedor */
+    height: 270px;         /* Asignamos una altura fija a todas las imágenes */
+    object-fit: cover;     /* Cubrirá el contenedor sin deformar la imagen */
+    border-radius: 8px;    /* Bordes redondeados */
+}
+
+/* Estilos para el paginador */
+.d-flex.justify-content-center.my-4 button {
+    background-color: #4682B4;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.d-flex.justify-content-center.my-4 button:hover {
+    background-color: #357ab8;
+}
+
+/* Estilo para el botón principal (Recomendados) */
+.btn-primary {
+    background-color: #4a9fc7; 
+    border-color: #4a9fc7;
+}
+
+.btn-primary:hover {
+    background-color: #3a87a6; 
+    border-color: #3a87a6;
+}
+
+/* Estilo para los botones outline (Disponibles y Más buscados) */
+.btn-outline-primary {
+    color: #4a9fc7;
+    border-color: #4a9fc7;
+}
+
+.btn-outline-primary:hover {
+    background-color: #4a9fc7; 
+    color: white; 
+    border-color: #4a9fc7;
+}
+
+/* Asegurar que las imágenes dentro del modal tengan un tamaño uniforme */
+#bookModalImg {
+    width: 100%;         
+    max-width: 200px;   
+    height: auto;      
+    object-fit: contain; 
+    display: block;
+    margin: 0 auto;      
+    border: 1px solid #ccc;  
+}
+
+/* Justificar el texto de la descripción del libro */
+#bookModalInfo {
+    text-align: justify; 
+    font-size: 1rem;      
+    line-height: 1.5;     
+    margin-bottom: 20px;  
+}
+
+.modal-title{
+     font-weight: bold;
+}
+
+#no-results {
+    margin-top: 10px;
+    text-align: center; /* Alinear el texto de la alerta al centro */
+}
+
+
+
