@@ -304,11 +304,11 @@ footer .input-group-text:hover {
 
 /* Sección de Derechos Reservados */
 footer .w-100 {
-    background-color: #5398dc; /* Azul más oscuro para la parte de derechos reservados */
+    background-color: #5398dc;
 }
 
 footer .w-100.bg-black p {
-    color: #ffffff; /* Letras blancas en la sección de derechos reservados */
+    color: #000000;
 }
 
 

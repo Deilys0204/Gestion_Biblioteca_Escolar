@@ -8,24 +8,23 @@
 /* Contenedor general del dashboard */
 .dashboard-container {
     display: flex;
-    height: 100vh; /* Altura total de la ventana */
-    overflow: hidden; /* Evita el desbordamiento lateral */
+    height: 100vh; 
+    overflow: hidden; 
 }
 
 /* Barra lateral fija */
 aside {
-    background-color: #4a9fc7; /* Fondo azul */
-    width: 250px; /* Ancho fijo */
-    height: 100vh; /* Altura fija para toda la ventana */
-    position: fixed; /* Barra lateral fija */
+    background-color: #4a9fc7; 
+    width: 250px; 
+    height: 100vh; 
+    position: fixed; 
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    overflow-y: auto; /* Permite scroll si el contenido de la barra lateral es mayor */
-    z-index: 1000; /* Asegura que la barra lateral esté por encima del contenido */
+    overflow-y: auto; 
 }
 
 /* Logo de la barra lateral */
@@ -34,7 +33,7 @@ aside .img-fluid {
     margin-bottom: 10px;
     display: block;
     margin-left: auto;
-    margin-right: auto; /* Centra la imagen */
+    margin-right: auto; 
 }
 
 /* Menú de navegación */
@@ -60,11 +59,64 @@ aside .img-fluid {
 
 /* Contenido principal */
 .main-content {
-    margin-left: 250px; /* Espacio para la barra lateral fija */
+    margin-left: 250px; 
     padding: 20px;
     background-color: rgb(246, 246, 234);
-    height: 100vh;
-    overflow-y: auto; /* Permite scroll si el contenido principal es más largo que la ventana */
+    height: calc(100vh - 20px); 
+    width: calc(100vw - 250px); 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+}
+
+.user-options .icon-container i {
+    color: #000000 !important; /* Fuerza el color negro en los iconos */
+}
+
+.user-info a {
+    text-decoration: none;
+    color: #000000;
+    display: flex;
+    align-items: center;
+}
+
+.user-info i {
+    font-size: 1.5em;
+    color: #000000;
+    margin-right: 0.5em;
+}
+
+/* Tabla */
+table {
+    width: 100%; 
+    margin: 0 auto; 
+    border-collapse: collapse; 
+}
+
+/* Celdas de la tabla */
+th, td {
+    text-align: left; 
+    padding: 1em; 
+    word-wrap: break-word; 
+}
+
+/* Imágenes */
+img {
+    max-width: 100%; 
+    height: auto; 
+}
+
+/* Estilo para los encabezados de la tabla */
+th {
+    background-color: #4a9fc7; 
+    color: rgb(0, 0, 0); 
+    padding: 1em; 
+}
+
+/* Estilo para las celdas de la tabla */
+td {
+    background-color: #f9f9f9; 
+    padding: 1em; 
+    border: 2px solid #ddd; 
 }
 
 /* Header */
@@ -73,6 +125,7 @@ header {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    flex-shrink: 0; 
 }
 
 h2 {
@@ -119,11 +172,12 @@ h3 {
     margin-right: 10px;
 }
 
-
+/* Estilo de iconos con gap */
 .d-flex.align-items-center.gap-3 {
     gap: 10px;
 }
 
+/* Botón primario */
 .text-white.bg-primary.p-2 {
     font-size: 20px;
     border-radius: 50%;
@@ -215,14 +269,13 @@ button.btn {
     margin-bottom: 20px;  
 }
 
-.modal-title{
-     font-weight: bold;
+/* Estilos para el título del modal */
+.modal-title {
+    font-weight: bold;
 }
 
+/* Estilo para la alerta de no resultados en la búsqueda */
 #no-results {
     margin-top: 10px;
     text-align: center; /* Alinear el texto de la alerta al centro */
 }
-
-
-

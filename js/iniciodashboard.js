@@ -1,5 +1,4 @@
 // Galería de libros
-// Galería de libros
 const books = [
     { 
         src: "../img/libro1.jpg", 

@@ -197,7 +197,7 @@
 
             <!-- Columna 2: Menú rápido -->
             <div class="col-md-4 footer-column mb-4">
-                <h2 class="h2 border-bottom pb-3 border-dark text-center logo">Menú Rápido</h2>
+                <h3 class="h3 border-bottom pb-3 border-dark text-center logo">Menú Rápido</h3>
                 <ul class="list-unstyled footer-link-list text-center">
                     <li><a class="text-decoration-none" href="#inicio">Inicio</a></li>
                     <li><a class="text-decoration-none" href="#caracterisitcas">Características</a></li>
@@ -234,8 +234,6 @@
         </div>
     </div>
 </footer>
-
-
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </html>
