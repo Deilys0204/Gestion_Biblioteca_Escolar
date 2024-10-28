@@ -33,7 +33,7 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                 <a class="nav-link" href="dashboard.php"><i class="fas fa-home me-2"></i> Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="dashboard-recursos.php"><i class="fas fa-book me-2"></i> Recursos</a>
+                <a class="nav-link" href="dashboard-recursos.php"><i class="fas fa-book me-2"></i> Recursos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="dashboard-historial.php"><i class="fas fa-history me-2"></i> Historial</a>
@@ -42,7 +42,7 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                 <a class="nav-link" href="dashboard-reservas.php"><i class="fas fa-calendar-alt me-2"></i> Reservar</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dashboard-perfil.php"><i class="fas fa-user me-2"></i> Perfil</a>
+                <a class="nav-link active" href="dashboard-perfil.php"><i class="fas fa-user me-2"></i> Perfil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="../php/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Salir</a>
@@ -58,9 +58,6 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                 <h3 class="text-muted">Disfruta la Biblioteca Escolar</h3>
             </div>
             <div class="d-flex align-items-center gap-3 user-options">
-                <div class="icon-container">
-                    <i class="fas fa-bell"></i>
-                </div>
                 <div class="icon-container">
                     <i class="fas fa-search"></i>
                 </div>

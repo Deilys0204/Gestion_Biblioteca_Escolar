@@ -58,12 +58,6 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                 <h3 class="text-muted">Disfruta la Biblioteca Escolar</h3>
             </div>
             <div class="d-flex align-items-center gap-3 user-options">
-                <div class="icon-container">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="icon-container">
-                    <i class="fas fa-search"></i>
-                </div>
                 <!-- Campo de búsqueda oculto -->
                 <div id="search-container" class="d-none my-3">
                 <input type="text" id="search-input" class="form-control" placeholder="Buscar libros...">
@@ -80,51 +74,13 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
             </div>
         </header>
 
-        <!-- Sección de filtros de libros -->
-        <section class="text-center my-4">
-            <button class="btn btn-primary me-2">Recomendados</button>
-            <button class="btn btn-outline-primary me-2">Disponibles</button>
-            <button class="btn btn-outline-primary">Más buscados</button>
-        </section>
-
-        <!-- Contenedor de la galería de libros -->
-        <div class="container bg-light rounded py-4">
-            <div id="book-gallery" class="row row-cols-2 row-cols-md-5 g-4">
-                <!-- Libros se cargarán dinámicamente aquí -->
-            </div>
-
-            <!-- Modal -->
-        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-             <div class="modal-dialog">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                          <h5 class="modal-title" id="bookModalLabel">Información del libro</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                 <div class="modal-body">
-        <!-- Aquí se mostrará la información del libro -->
-        <img id="bookModalImg" class="img-fluid rounded mb-3" src="" alt="Libro">
-        <p id="bookModalInfo"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="reserveBtn">Reservar</button>
-      </div>
-    </div>
-  </div>
-</div>
-            <!-- Paginador -->
-            <div class="d-flex justify-content-center my-4">
-                <button id="previous-btn" class="btn btn-outline-primary me-2">Anterior</button>
-                <button id="next-btn" class="btn btn-primary">Siguiente</button>
-            </div>
+        <!-- Imagen centrada en el contenido principal -->
+        <div class="d-flex justify-content-center align-items-center my-5">
+            <img src="../img/fachadamerced.png" alt="Imagen Principal" class="img-fluid rounded shadow" style="max-width: 80%;">
         </div>
     </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Script para manejar la paginación -->
-<script src="../js/iniciodashboard.js"></script>
 </body>
 </html>

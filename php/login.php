@@ -93,7 +93,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="mb-3 password-container">
                         <input type="password" name="contrasena" class="form-control" placeholder="Contraseña" required>
                     </div>
-                    <button type="submit" class="btn btn-primary ">Iniciar Sesión</button>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </div>
                 </form>
 
                 <div class="options mt-3 text-center">

@@ -69,19 +69,19 @@ aside .img-fluid {
 }
 
 .user-options .icon-container i {
-    color: #000000 !important; /* Fuerza el color negro en los iconos */
+    color: #ffffff !important; /* Fuerza el color negro en los iconos */
 }
 
 .user-info a {
     text-decoration: none;
-    color: #000000;
+    color: #ffffff;
     display: flex;
     align-items: center;
 }
 
 .user-info i {
     font-size: 1.5em;
-    color: #000000;
+    color: #ffffff;
     margin-right: 0.5em;
 }
 
@@ -90,6 +90,7 @@ table {
     width: 100%; 
     margin: 0 auto; 
     border-collapse: collapse; 
+    border: 2px solid #4a9fc7 !important; 
 }
 
 /* Celdas de la tabla */
@@ -97,6 +98,7 @@ th, td {
     text-align: left; 
     padding: 1em; 
     word-wrap: break-word; 
+    border: 1px solid #4a9fc7 !important; 
 }
 
 /* Imágenes */
@@ -107,16 +109,16 @@ img {
 
 /* Estilo para los encabezados de la tabla */
 th {
-    background-color: #4a9fc7; 
-    color: rgb(0, 0, 0); 
-    padding: 1em; 
+    background-color: #4a9fc7 !important; 
+    color: #000000; 
+    padding: 1em;
 }
 
 /* Estilo para las celdas de la tabla */
 td {
     background-color: #f9f9f9; 
     padding: 1em; 
-    border: 2px solid #ddd; 
+    border: 1px solid #4a9fc7; 
 }
 
 /* Header */
