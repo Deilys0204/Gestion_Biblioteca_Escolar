@@ -14,5 +14,5 @@ try {
 }
 
 // Establece la codificación a utf8mb4
-$conn->set_charset("utf8mb4");
+$pdo->exec("set names utf8mb4");
 ?>

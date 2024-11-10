@@ -66,7 +66,7 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                  No se encontraron resultados relacionados con tu búsqueda.
                 </div>
                 <div class="user-info">
-                    <a href="editar_perfil.php">
+                    <a href="dashboard-perfil.php">
                       <i class="fas fa-user-circle"></i>
                       <span><?php echo $_SESSION['primer_nombre'] . " " . $_SESSION['primer_apellido']; ?></span>
                     </a>

@@ -8,6 +8,50 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
     header("Location: login.php");
     exit;
 }
+
+// Conexión a la base de datos
+$host = "localhost";
+$dbname = "educa_biblio";
+$username = "root";
+$password_db = "123456789";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password_db);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Error en la conexión: " . $e->getMessage());
+}
+
+// Manejar solicitudes AJAX para cargar libros según el filtro
+if (isset($_GET['filter']) && isset($_GET['page']) && isset($_GET['itemsPerPage'])) {
+    $filter = $_GET['filter'];
+    $page = (int)$_GET['page'];
+    $itemsPerPage = (int)$_GET['itemsPerPage'];
+    $offset = ($page - 1) * $itemsPerPage;
+
+    $query = "SELECT nombre_libro AS name, genero, paginas, ano_editorial, 'ruta_de_imagen.jpg' AS image, 'Descripción del libro...' AS description FROM libro";
+
+    if ($filter === 'disponibles') {
+        $query .= " WHERE estado_libro = 1";
+    } elseif ($filter === 'mas_buscados') {
+        $query .= " ORDER BY busquedas DESC";
+    } else {
+        $query .= " ORDER BY RAND()"; // Recomendados aleatoriamente
+    }
+
+    $query .= " LIMIT :itemsPerPage OFFSET :offset";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':itemsPerPage', $itemsPerPage, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Para saber si hay más páginas
+    $hasMore = count($books) === $itemsPerPage;
+
+    echo json_encode(['books' => $books, 'hasMore' => $hasMore]);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -63,15 +107,15 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                 </div>
                 <!-- Campo de búsqueda oculto -->
                 <div id="search-container" class="d-none my-3">
-                <input type="text" id="search-input" class="form-control" placeholder="Buscar libros...">
+                    <input type="text" id="search-input" class="form-control" placeholder="Buscar libros...">
                 </div>
                 <div id="no-results" class="alert alert-warning d-none" role="alert">
-                 No se encontraron resultados relacionados con tu búsqueda.
+                    No se encontraron resultados relacionados con tu búsqueda.
                 </div>
                 <div class="user-info">
-                    <a href="editar_perfil.php">
-                      <i class="fas fa-user-circle"></i>
-                      <span><?php echo $_SESSION['primer_nombre'] . " " . $_SESSION['primer_apellido']; ?></span>
+                    <a href="dashboard-perfil.php">
+                        <i class="fas fa-user-circle"></i>
+                        <span><?php echo $_SESSION['primer_nombre'] . " " . $_SESSION['primer_apellido']; ?></span>
                     </a>
                 </div>
             </div>
@@ -79,9 +123,7 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
 
         <!-- Sección de filtros de libros -->
         <section class="text-center my-4">
-            <button class="btn btn-primary me-2">Recomendados</button>
-            <button class="btn btn-outline-primary me-2">Disponibles</button>
-            <button class="btn btn-outline-primary">Más buscados</button>
+            <button id="btnRecomendados" class="btn btn-primary me-2">Recomendados</button>
         </section>
 
         <!-- Contenedor de la galería de libros -->
@@ -91,25 +133,26 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
             </div>
 
             <!-- Modal -->
-        <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
-             <div class="modal-dialog">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                          <h5 class="modal-title" id="bookModalLabel">Información del libro</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                 <div class="modal-body">
-        <!-- Aquí se mostrará la información del libro -->
-        <img id="bookModalImg" class="img-fluid rounded mb-3" src="" alt="Libro">
-        <p id="bookModalInfo"></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="reserveBtn" onclick="location.href='dashboard-reservas.php'">Reservar</button>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookModalLabel">Información del libro</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Aquí se mostrará la información del libro -->
+                            <img id="bookModalImg" class="img-fluid rounded mb-3" src="" alt="Libro">
+                            <p id="bookModalInfo"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" id="reserveBtn" onclick="location.href='dashboard-reservas.php'">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Paginador -->
             <div class="d-flex justify-content-center my-4">
                 <button id="previous-btn" class="btn btn-outline-primary me-2">Anterior</button>
@@ -120,8 +163,6 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Script para manejar la paginación -->
 <script src="../js/iniciodashboard.js"></script>
 </body>
 </html>

@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Consulta para verificar el número de documento
     $sql = "SELECT * FROM usuarios WHERE numero_documento = ?";  // Buscar por el campo 'numero_documento'
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $numero_documento);  // El número de documento sigue siendo capturado como 'usuario'
+    $stmt->bind_param("s", $numero_documento);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -34,9 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verificar la contraseña (password_verify compara la contraseña ingresada con el hash almacenado)
         if (password_verify($contrasena, $user['password'])) {
-            // Guardar el nombre y apellido en la sesión
+            // Guardar el nombre, apellido y número de documento en la sesión
             $_SESSION['primer_nombre'] = $user['primer_nombre'];
             $_SESSION['primer_apellido'] = $user['primer_apellido'];
+            $_SESSION['numero_documento'] = $user['numero_documento']; // Agregar numero_documento a la sesión
 
             // Inicio de sesión exitoso, redirigir al dashboard
             header("Location: dashboard.php");
@@ -109,6 +110,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-

@@ -1,12 +1,44 @@
-<?php
-// Iniciar sesión
+<?php 
+// Configuración para mostrar errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) {
-    // Redirigir al login si no ha iniciado sesión
-    header("Location: login.php");
-    exit;
+// Datos de conexión a la base de datos
+$host = "localhost";
+$dbname = "educa_biblio";
+$username = "root";
+$password_db = "123456789";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password_db);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Error en la conexión: " . $e->getMessage());
+}
+
+// Obtener el nombre completo del usuario de la sesión
+$usuario_creacion = isset($_SESSION['primer_nombre'], $_SESSION['primer_apellido']) 
+                    ? $_SESSION['primer_nombre'] . " " . $_SESSION['primer_apellido'] 
+                    : null;
+
+if ($usuario_creacion) {
+    // Consultar el historial de reservas del usuario basado en el nombre de creación
+    $sql = "SELECT nombre_libro, fecha_reserva, fecha_devolucion, usuario_creacion
+            FROM reservas
+            WHERE usuario_creacion = :usuario_creacion"; 
+
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['usuario_creacion' => $usuario_creacion]);
+        $historial = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Error en la consulta: " . $e->getMessage();  // Mensaje para capturar errores en la consulta
+    }
+} else {
+    $historial = [];
 }
 ?>
 
@@ -58,18 +90,8 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
                 <h3 class="text-muted">Disfruta la Biblioteca Escolar</h3>
             </div>
             <div class="d-flex align-items-center gap-3 user-options">
-                <div class="icon-container">
-                    <i class="fas fa-search"></i>
-                </div>
-                <!-- Campo de búsqueda oculto -->
-                <div id="search-container" class="d-none my-3">
-                    <input type="text" id="search-input" class="form-control" placeholder="Buscar libros...">
-                </div>
-                <div id="no-results" class="alert alert-warning d-none" role="alert">
-                    No se encontraron resultados relacionados con tu búsqueda.
-                </div>
                 <div class="user-info">
-                    <a href="editar_perfil.php">
+                <a href="dashboard-perfil.php">
                       <i class="fas fa-user-circle"></i>
                       <span><?php echo $_SESSION['primer_nombre'] . " " . $_SESSION['primer_apellido']; ?></span>
                     </a>
@@ -77,15 +99,41 @@ if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) 
             </div>
         </header>
 
-        <!-- Espacio vacío en el contenido principal -->
+        <!-- Tabla de historial de reservas -->
         <div class="container mt-5">
-            <p class="text-center">Contenido pendiente por añadir.</p>
+            <h3 class="mb-4 text-center">Historial de Reservas</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Título del Libro</th>
+                            <th scope="col">Fecha de Reserva</th>
+                            <th scope="col">Fecha de Devolución</th>
+                            <th scope="col">Usuario Creación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($historial)): ?>
+                            <?php foreach ($historial as $registro): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($registro['nombre_libro']); ?></td>
+                                    <td><?php echo htmlspecialchars($registro['fecha_reserva']); ?></td>
+                                    <td><?php echo htmlspecialchars($registro['fecha_devolucion'] ?? 'Pendiente'); ?></td>
+                                    <td><?php echo htmlspecialchars($registro['usuario_creacion']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="4" class="text-center">No se encontraron registros de reserva.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 </div>
 
-<!-- Cargar el script externo -->
-<script src="../js/iniciodashboard.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
