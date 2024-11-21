@@ -13,23 +13,21 @@ function toggleSearch() {
 }
 
 function searchBook() {
-    let input = document.getElementById('searchInput');
-    let filter = input.value.toLowerCase();
-    let table = document.getElementById('booksTable');
-    let rows = table.getElementsByTagName('tr');
-    let noResultsMessage = document.getElementById('noResultsMessage');
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const books = document.querySelectorAll('.col'); // Busca en todas las columnas de libros
+    const noResultsMessage = document.getElementById('noResultsMessage');
     let hasResults = false;
 
-    for (let i = 1; i < rows.length; i++) {
-        let cells = rows[i].getElementsByTagName('td');
-        let bookName = cells[0].textContent.toLowerCase();
-        if (bookName.includes(filter)) {
-            rows[i].style.display = '';
+    books.forEach(book => {
+        const title = book.querySelector('img').alt.toLowerCase();
+        if (title.includes(filter)) {
+            book.style.display = 'block'; // Asegúrate de mostrarlo si coincide
             hasResults = true;
         } else {
-            rows[i].style.display = 'none';
+            book.style.display = 'none'; // Oculta si no coincide
         }
-    }
+    });
 
     // Mostrar mensaje de "No hay resultados" si no hay coincidencias
     if (!hasResults) {

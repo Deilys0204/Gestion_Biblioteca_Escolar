@@ -147,7 +147,7 @@ if (isset($_GET['filter']) && isset($_GET['page']) && isset($_GET['itemsPerPage'
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" id="reserveBtn" onclick="location.href='dashboard-reservas.php'">Reservar</button>
+                            <button type="button" class="btn btn-primary" id="reserveBtn" onclick="location.href='dashboard-reservas.php'">Ir a Reservas</button>
                         </div>
                     </div>
                 </div>

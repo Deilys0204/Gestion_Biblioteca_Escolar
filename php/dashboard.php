@@ -2,6 +2,7 @@
 // Iniciar sesión
 session_start();
 
+
 // Verificar si el usuario ha iniciado sesión
 if (!isset($_SESSION['primer_nombre']) || !isset($_SESSION['primer_apellido'])) {
     // Redirigir al login si no ha iniciado sesión

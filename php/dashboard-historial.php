@@ -28,7 +28,7 @@ if ($usuario_creacion) {
     // Consultar el historial de reservas del usuario basado en el nombre de creación
     $sql = "SELECT nombre_libro, fecha_reserva, fecha_devolucion, usuario_creacion
             FROM reservas
-            WHERE usuario_creacion = :usuario_creacion"; 
+            WHERE usuario_creacion = :usuario_creacion ORDER BY fecha_reserva desc"; 
 
     try {
         $stmt = $pdo->prepare($sql);

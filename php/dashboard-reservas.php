@@ -25,18 +25,18 @@ try {
     die("Error en la conexión: " . $e->getMessage());
 }
 
-// Procesar reserva si se envía el formulario desde el modal
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cod_libro'], $_POST['nombre_libro'], $_POST['fecha_devolucion'])) {
+// Procesar reserva si se envía el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cod_libro'], $_POST['nombre_libro'])) {
     $cod_libro = $_POST['cod_libro'];
     $nombre_libro = $_POST['nombre_libro'];
-    $fecha_reserva = date('Y-m-d');
-    $fecha_devolucion = $_POST['fecha_devolucion'];
+    $fecha_reserva = date('Y-m-d'); // Fecha actual
+    $fecha_devolucion = date('Y-m-d', strtotime($fecha_reserva . ' + 5 days')); // Calcular fecha de devolución
     $usuario_id = $_SESSION['id'];
     $usuario_creacion = $_SESSION['primer_nombre'] . " " . $_SESSION['primer_apellido'];
 
+    // Insertar reserva en la base de datos
     $sql = "INSERT INTO reservas (nombre_libro, fecha_reserva, fecha_devolucion, usuario_creacion, usuario_id, codigo_libro) 
             VALUES (:nombre_libro, :fecha_reserva, :fecha_devolucion, :usuario_creacion, :usuario_id, :codigo_libro)";
-    
     $stmt = $pdo->prepare($sql);
     if ($stmt->execute([
         ':nombre_libro' => $nombre_libro,
@@ -62,13 +62,13 @@ $limite = 5;
 $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $limite;
 
-// Obtener el total de libros disponibles para calcular el número total de páginas
+// Obtener el total de libros disponibles
 $sql_total = "SELECT COUNT(*) as total FROM libro WHERE estado_libro = 1";
 $result_total = $pdo->query($sql_total);
 $total_libros = $result_total->fetch(PDO::FETCH_ASSOC)['total'];
 $total_paginas = ceil($total_libros / $limite);
 
-// Obtener la lista de libros disponibles con límite de paginación
+// Obtener la lista de libros disponibles con paginación
 $sql = "SELECT cod_libro, nombre_libro, genero, cantidad_disponible FROM libro WHERE estado_libro = 1 LIMIT :limite OFFSET :offset";
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
@@ -88,15 +88,14 @@ $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <style>
-        /* Ocultar el campo de búsqueda al cargar la página */
+        /* Inicialmente ocultar el campo de búsqueda */
         #search-container {
-            display: none; /* Inicialmente oculto */
+            display: none;
         }
     </style>
 </head>
 <body>
 <div class="dashboard-container">
-    <!-- Barra lateral de navegación -->
     <aside>
         <div class="mb-4">
             <img src="../img/educabibliologo.png" alt="EducaBiblio" class="img-fluid">
@@ -123,12 +122,10 @@ $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="icon-container">
                     <i id="search-icon" class="fas fa-search" style="cursor: pointer;"></i>
                 </div>
-                
-                <!-- Contenedor de búsqueda, inicialmente oculto -->
+                <!-- Contenedor de búsqueda -->
                 <div id="search-container" class="my-3">
                     <input type="text" id="search-input" class="form-control" placeholder="Buscar en reservas...">
                 </div>
-                
                 <div class="user-info">
                     <a href="dashboard-perfil.php">
                         <i class="fas fa-user-circle"></i>
@@ -196,74 +193,109 @@ $libros = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php endif; ?>
             </div>
         </div>
-
-        <!-- Modal para reservar libro -->
-        <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reserveModalLabel">Reservar Libro</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="cod_libro" id="cod_libro">
-                            <div class="mb-3">
-                                <label for="nombre_libro" class="form-label">Nombre del Libro</label>
-                                <input type="text" class="form-control" id="nombre_libro" name="nombre_libro" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fecha_reserva" class="form-label">Fecha de Reserva</label>
-                                <input type="text" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fecha_devolucion" class="form-label">Fecha de Devolución</label>
-                                <input type="date" class="form-control" name="fecha_devolucion" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success">Confirmar Reserva</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </main>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Modal -->
+<div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reserveModalLabel">Reservar Libro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="cod_libro" id="cod_libro">
+                    <div class="mb-3">
+                        <label for="nombre_libro" class="form-label">Nombre del Libro</label>
+                        <input type="text" class="form-control" id="nombre_libro" name="nombre_libro" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha_reserva" class="form-label">Fecha de Reserva</label>
+                        <input type="text" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha_devolucion" class="form-label">Fecha de Devolución</label>
+                        <input type="text" class="form-control" id="fecha_devolucion" name="fecha_devolucion" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Confirmar Reserva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     function openReserveModal(cod_libro, nombre_libro) {
         document.getElementById('cod_libro').value = cod_libro;
         document.getElementById('nombre_libro').value = nombre_libro;
-        var reserveModal = new bootstrap.Modal(document.getElementById('reserveModal'));
+
+        const today = new Date();
+        const devolucionDate = new Date(today.setDate(today.getDate() + 5));
+        const formattedDate = devolucionDate.toISOString().split('T')[0];
+        document.getElementById('fecha_devolucion').value = formattedDate;
+
+        const reserveModal = new bootstrap.Modal(document.getElementById('reserveModal'));
         reserveModal.show();
     }
 
-    // Función para alternar la visibilidad del contenedor de búsqueda al hacer clic en el icono de búsqueda
     document.getElementById("search-icon").addEventListener("click", function() {
-        var searchContainer = document.getElementById("search-container");
-        
-        // Si el contenedor de búsqueda está oculto, mostrarlo
+        const searchContainer = document.getElementById("search-container");
         if (searchContainer.style.display === "none" || searchContainer.style.display === "") {
-            searchContainer.style.display = "block"; // Muestra el campo de búsqueda
-            document.getElementById("search-input").focus(); // Enfoca automáticamente en el campo de búsqueda
+            searchContainer.style.display = "block";
+            document.getElementById("search-input").focus();
         } else {
-            searchContainer.style.display = "none"; // Oculta el campo de búsqueda si ya estaba visible
+            searchContainer.style.display = "none";
         }
     });
 
-    // Filtrar las filas de la tabla a medida que el usuario escribe en el campo de búsqueda
-    document.getElementById("search-input").addEventListener("input", function() {
-        var filter = this.value.toLowerCase();
-        var rows = document.querySelectorAll("tbody tr");
-        
-        rows.forEach(function(row) {
-            var text = row.textContent.toLowerCase();
-            row.style.display = text.includes(filter) ? "" : "none";
-        });
+    const searchInput = document.getElementById("search-input");
+    const tableBody = document.querySelector("tbody");
+
+    searchInput.addEventListener("input", async function () {
+        const query = this.value.trim();
+
+        if (query === "") {
+            // Restaurar la tabla si no hay búsqueda
+            location.reload();
+            return;
+        }
+
+        try {
+            const response = await fetch(`buscar_libros.php?q=${encodeURIComponent(query)}`);
+            const libros = await response.json();
+
+            // Vaciar la tabla
+            tableBody.innerHTML = "";
+
+            if (libros.length > 0) {
+                libros.forEach(libro => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${libro.nombre_libro}</td>
+                        <td>${libro.genero}</td>
+                        <td>${libro.cantidad_disponible}</td>
+                        <td>
+                            ${libro.cantidad_disponible > 0 
+                                ? `<button class="btn btn-success" onclick="openReserveModal('${libro.cod_libro}', '${libro.nombre_libro.replace(/'/g, "\\'")}')">Reservar</button>` 
+                                : `<button class="btn btn-danger" disabled>Agotado</button>`
+                            }
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                tableBody.innerHTML = `<tr><td colspan="4" class="text-center">No se encontraron libros.</td></tr>`;
+            }
+        } catch (error) {
+            console.error("Error al buscar libros:", error);
+        }
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
